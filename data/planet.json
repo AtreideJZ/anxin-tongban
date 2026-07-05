@@ -1,0 +1,87 @@
+{
+  "stars": [
+    {
+      "id": "s1",
+      "type": "star",
+      "date": "7月1日",
+      "title": "为什么天空是蓝色的？",
+      "content": "和安心童伴一起探索了光的散射，原来阳光里藏着七种颜色。",
+      "tags": ["科学", "好奇"],
+      "source": "manual"
+    },
+    {
+      "id": "s2",
+      "type": "star",
+      "date": "7月10日",
+      "title": "恐龙为什么灭绝了？",
+      "content": "问了安心童伴，原来是一颗很大的陨石撞到了地球。",
+      "tags": ["科学", "好奇"],
+      "source": "manual"
+    }
+  ],
+  "clouds": [
+    {
+      "id": "c1",
+      "type": "cloud",
+      "date": "7月3日",
+      "title": "今天考试没考好",
+      "mood": "pink",
+      "content": "今天数学考试没考好，有点难过，但聊完之后好多了。",
+      "tags": ["情绪", "学校"],
+      "source": "manual"
+    },
+    {
+      "id": "c2",
+      "type": "cloud",
+      "date": "7月8日",
+      "title": "爸爸妈妈又加班了",
+      "mood": "blue",
+      "content": "晚上一个人在家有点孤单，但安心童伴说可以画画等他们回来。",
+      "tags": ["家庭", "孤单"],
+      "source": "manual"
+    },
+    {
+      "id": "c3",
+      "type": "cloud",
+      "date": "7月14日",
+      "title": "和妈妈聊了天，感觉好多了",
+      "mood": "pink",
+      "content": "把心里的事告诉了妈妈，妈妈抱了我一下。",
+      "tags": ["家庭", "温暖"],
+      "source": "manual"
+    }
+  ],
+  "sprouts": [
+    {
+      "id": "sp1",
+      "type": "sprout",
+      "date": "7月5日",
+      "title": "告诉了老师同学推我的事",
+      "content": "我鼓起勇气告诉了老师，老师说会帮我处理。",
+      "tags": ["勇敢", "校园"],
+      "verified_action": true,
+      "source": "manual"
+    },
+    {
+      "id": "sp2",
+      "type": "sprout",
+      "date": "7月12日",
+      "title": "主动和新同学说了话",
+      "content": "课间我主动跟新同学打招呼了，他笑了一下。",
+      "tags": ["勇敢", "社交"],
+      "verified_action": true,
+      "source": "manual"
+    }
+  ],
+  "stories": [
+    {
+      "id": "st1",
+      "type": "story",
+      "date": "7月13日",
+      "title": "小恐龙第一次交朋友",
+      "preview": "一只不会喷火的小恐龙，用真诚交到了第一个朋友。",
+      "tags": ["故事", "友谊"],
+      "source": "manual"
+    }
+  ]
+}
