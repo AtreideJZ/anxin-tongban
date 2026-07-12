@@ -55,15 +55,31 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ---------------------------------------------------------------------------
+# 7 步安全决策闭环（首页核心展示：让评委第一眼看到"不是换儿童语气，而是做边界判断"）
+# ---------------------------------------------------------------------------
+st.markdown("#### 🛡️ 7 步安全决策闭环")
+st.caption("安心童伴不是把大模型换成儿童语气，而是在每一步做边界判断。")
+
+st.markdown(
+    styles.pipeline_flow_html(active_steps=["0", "1", "2", "3", "4", "5", "6"]),
+    unsafe_allow_html=True,
+)
+
+# 步骤说明
 st.markdown(
     """
-    <div class="anxin-card" style="margin: 20px 0;">
-        <p style="margin: 0 0 10px;">小朋友可以聊心事、问问题、听故事；安心童伴会温柔回应，但永远守住安全底线——</p>
-        <ul style="margin: 0; padding-left: 22px; line-height: 1.7;">
-            <li>🛡️ 不让隐私流出，不无边界地迎合</li>
-            <li>🌱 不替代真人，鼓励孩子走向家人、朋友和真实的世界</li>
-            <li>⭐ 孩子自己策展的「小星球」记忆，是 AI 引用的唯一来源</li>
-        </ul>
+    <div class="anxin-card" style="margin: -8px 0 20px;">
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 8px 16px; font-size: 12px;">
+            <div><b>Step 0</b> 记忆检索<br><span class="meta">从孩子策展的小星球里检索相关条目</span></div>
+            <div><b>Step 1</b> 关键词检测<br><span class="meta">5 类风险词库命中检测</span></div>
+            <div><b>Step 2</b> 风险分类<br><span class="meta">LLM 判定 topic + risk_level</span></div>
+            <div><b>Step 3</b> 策略决策<br><span class="meta">7 种策略：正常/温和引导/危机模板…</span></div>
+            <div><b>Step 4</b> Prompt 构建<br><span class="meta">反谄媚规则 + 年龄适配</span></div>
+            <div><b>Step 5</b> LLM 生成<br><span class="meta">主回复模型生成儿童友好回复</span></div>
+            <div><b>Step 6</b> 批判审计<br><span class="meta">批判 Agent 二次审查输出</span></div>
+            <div><b>Step 6b</b> 输出拦截<br><span class="meta">告警时替换为安全模板，不走 LLM</span></div>
+        </div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -89,7 +105,7 @@ with col2:
         <div class="anxin-card">
             <div style="font-size: 24px;">🛡️</div>
             <div style="font-weight: 600; margin: 4px 0;">安全引擎</div>
-            <div class="meta">7 步 Pipeline · 决策链可视化</div>
+            <div class="meta">7 步边界判断 · 决策链可视化</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -184,6 +200,36 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# ---------------------------------------------------------------------------
+# 入口兜底：Cloud 偶发唤醒或登录跳转时，评委可看本地运行命令
+# ---------------------------------------------------------------------------
+with st.expander("🌐 打不开？点这里看本地运行命令", expanded=False):
+    st.markdown(
+        """
+        如果 Streamlit Cloud 正在唤醒（冷启动约 30 秒）或跳转登录页，可以在本地跑 Demo：
+
+        ```bash
+        # 1. 克隆仓库
+        git clone https://github.com/AtreideJZ/anxin-tongban.git
+        cd anxin-tongban
+
+        # 2. 安装依赖
+        pip install -r requirements.txt
+
+        # 3. 配置 API Key（任选其一）
+        #    方式 A：在 .streamlit/secrets.toml 写入：
+        #        DEEPSEEK_API_KEY = "sk-..."
+        #    方式 B：设置环境变量
+        #        set DEEPSEEK_API_KEY=sk-...
+
+        # 4. 启动
+        streamlit run app.py
+        ```
+
+        访问 `http://localhost:8501` 即可。无 API Key 也可运行（进入脚本回退模式，展示流程不展示真实 LLM 生成）。
+        """
+    )
 
 st.markdown(
     """

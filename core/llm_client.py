@@ -1,17 +1,17 @@
 """LLM 客户端封装
 
-支持 OpenAI 兼容协议（DeepSeek / 通义 DashScope / 智谱 GLM 等）。
+支持 OpenAI 兼容协议（DeepSeek 官方 / 硅基流动 SiliconFlow 等）。
 当未配置 API Key 时，自动回退到脚本化回复，保证 Demo 在无 Key 时也能跑通。
 
 环境变量（按优先级自动探测）：
-- 主回复 LLM：DEEPSEEK_API_KEY（DeepSeek）或 DASHSCOPE_API_KEY（通义千问）
-- 轻量 LLM（风险分类/审计）：DASHSCOPE_API_KEY（通义千问）或 DEEPSEEK_API_KEY
+- 主回复 LLM：DEEPSEEK_API_KEY（DeepSeek v4-pro）或 SILICONFLOW_API_KEY（MiniMax-M2.5）
+- 轻量 LLM（风险分类/审计）：SILICONFLOW_API_KEY（MiniMax-M2.5）或 DEEPSEEK_API_KEY（v4-flash）
 
 可在 .streamlit/secrets.toml 或环境变量中配置：
     DEEPSEEK_API_KEY = "sk-..."
-    DASHSCOPE_API_KEY = "sk-..."
-    ANXIN_MAIN_MODEL = "deepseek-chat"        # 可选
-    ANXIN_SMALL_MODEL = "qwen-turbo"          # 可选
+    SILICONFLOW_API_KEY = "sk-..."
+    ANXIN_MAIN_MODEL = "deepseek-v4-pro"             # 可选
+    ANXIN_SMALL_MODEL = "Pro/MiniMaxAI/MiniMax-M2.5" # 可选
 """
 from __future__ import annotations
 
@@ -28,10 +28,56 @@ except ImportError:  # pragma: no cover
 
 
 # ---------------------------------------------------------------------------
+# Secrets 同步：把 st.secrets / .streamlit/secrets.toml 的值同步到 os.environ
+# 这样代码用 os.environ.get() 就能读到 secrets.toml 里的配置，
+# 同时兼容 Streamlit Cloud（Cloud 也会注入 os.environ）和本地环境变量。
+# ---------------------------------------------------------------------------
+_SECRET_KEYS = (
+    "DEEPSEEK_API_KEY",
+    "SILICONFLOW_API_KEY",
+    "ANXIN_MAIN_MODEL",
+    "ANXIN_SMALL_MODEL",
+)
+
+
+def _sync_secrets_to_environ() -> None:
+    """把 st.secrets 里的配置同步到 os.environ（覆盖已有的环境变量）
+
+    Demo 项目约定：secrets.toml 是项目级配置，优先于系统环境变量。
+    这样开发机上的旧环境变量不会干扰项目配置。
+    """
+    try:
+        import streamlit as st  # type: ignore
+        secrets = st.secrets
+    except Exception:
+        return
+    for key in _SECRET_KEYS:
+        try:
+            val = secrets[key]
+        except (KeyError, AttributeError):
+            continue
+        if val:
+            os.environ[key] = str(val)
+
+
+_sync_secrets_to_environ()
+
+
+# ---------------------------------------------------------------------------
 # 模型配置
 # ---------------------------------------------------------------------------
 MAIN_PROVIDER_DEEPSEEK = "deepseek"
-MAIN_PROVIDER_DASHSCOPE = "dashscope"
+MAIN_PROVIDER_SILICONFLOW = "siliconflow"
+
+# 默认模型名
+DEFAULT_MAIN_MODEL_DEEPSEEK = "deepseek-v4-pro"
+DEFAULT_MAIN_MODEL_SILICONFLOW = "Pro/MiniMaxAI/MiniMax-M2.5"
+DEFAULT_SMALL_MODEL_SILICONFLOW = "Pro/MiniMaxAI/MiniMax-M2.5"
+DEFAULT_SMALL_MODEL_DEEPSEEK = "deepseek-v4-flash"
+
+# OpenAI 兼容 base_url
+DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1"
+SILICONFLOW_BASE_URL = "https://api.siliconflow.cn/v1"
 
 
 @dataclass
@@ -43,39 +89,41 @@ class ModelConfig:
 
 
 def _get_main_config() -> Optional[ModelConfig]:
-    """探测主回复 LLM 配置"""
-    # 优先 DeepSeek
+    """探测主回复 LLM 配置（优先 DeepSeek，质量更好）"""
+    # 优先 DeepSeek 官方
     if os.environ.get("DEEPSEEK_API_KEY"):
         return ModelConfig(
-            name=os.environ.get("ANXIN_MAIN_MODEL", "deepseek-chat"),
-            base_url="https://api.deepseek.com/v1",
+            name=os.environ.get("ANXIN_MAIN_MODEL", DEFAULT_MAIN_MODEL_DEEPSEEK),
+            base_url=DEEPSEEK_BASE_URL,
             api_key_env="DEEPSEEK_API_KEY",
             provider=MAIN_PROVIDER_DEEPSEEK,
         )
-    # 其次通义 DashScope
-    if os.environ.get("DASHSCOPE_API_KEY"):
+    # 其次硅基流动 SiliconFlow（MiniMax-M2.5）
+    if os.environ.get("SILICONFLOW_API_KEY"):
         return ModelConfig(
-            name=os.environ.get("ANXIN_MAIN_MODEL", "qwen-plus"),
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-            api_key_env="DASHSCOPE_API_KEY",
-            provider=MAIN_PROVIDER_DASHSCOPE,
+            name=os.environ.get("ANXIN_MAIN_MODEL", DEFAULT_MAIN_MODEL_SILICONFLOW),
+            base_url=SILICONFLOW_BASE_URL,
+            api_key_env="SILICONFLOW_API_KEY",
+            provider=MAIN_PROVIDER_SILICONFLOW,
         )
     return None
 
 
 def _get_small_config() -> Optional[ModelConfig]:
-    """探测轻量 LLM 配置（风险分类/审计）"""
-    if os.environ.get("DASHSCOPE_API_KEY"):
+    """探测轻量 LLM 配置（优先硅基流动，更快更省）"""
+    # 优先硅基流动 SiliconFlow（MiniMax-M2.5）
+    if os.environ.get("SILICONFLOW_API_KEY"):
         return ModelConfig(
-            name=os.environ.get("ANXIN_SMALL_MODEL", "qwen-turbo"),
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-            api_key_env="DASHSCOPE_API_KEY",
-            provider=MAIN_PROVIDER_DASHSCOPE,
+            name=os.environ.get("ANXIN_SMALL_MODEL", DEFAULT_SMALL_MODEL_SILICONFLOW),
+            base_url=SILICONFLOW_BASE_URL,
+            api_key_env="SILICONFLOW_API_KEY",
+            provider=MAIN_PROVIDER_SILICONFLOW,
         )
+    # 其次 DeepSeek 官方（v4-flash 轻量版）
     if os.environ.get("DEEPSEEK_API_KEY"):
         return ModelConfig(
-            name=os.environ.get("ANXIN_SMALL_MODEL", "deepseek-chat"),
-            base_url="https://api.deepseek.com/v1",
+            name=os.environ.get("ANXIN_SMALL_MODEL", DEFAULT_SMALL_MODEL_DEEPSEEK),
+            base_url=DEEPSEEK_BASE_URL,
             api_key_env="DEEPSEEK_API_KEY",
             provider=MAIN_PROVIDER_DEEPSEEK,
         )

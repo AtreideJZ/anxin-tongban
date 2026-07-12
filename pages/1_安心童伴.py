@@ -115,10 +115,21 @@ with st.sidebar:
     st.markdown("**🚀 一键演示案例**")
     st.caption("点击即可触发完整 Pipeline 流程")
     for case in DEMO_CASES:
+        sc = case.get("safety_closure", {})
+        help_text = (
+            f"预设输入：{case['preset_input']}\n"
+            f"目标：{case['goal']}\n"
+            f"---\n"
+            f"触发条件：{sc.get('trigger', '—')}\n"
+            f"处理动作：{sc.get('step3_action', '—')}\n"
+            f"安全边界：{sc.get('boundary', '—')}\n"
+            f"转人工：{sc.get('handoff', '—')}\n"
+            f"家长提醒：{sc.get('parent_alert', '—')}"
+        )
         if st.button(
             f"{case['emoji']} {case['name']}",
             key=f"case_btn_{case['id']}",
-            help=f"预设输入：{case['preset_input']}\n目标：{case['goal']}",
+            help=help_text,
             use_container_width=True,
         ):
             state.set("pending_input", case["preset_input"])
@@ -240,6 +251,30 @@ def _run_pipeline_and_reply(user_input: str) -> None:
         # 友好提示（高风险/中风险时附上）
         if result.used_crisis_template:
             st.error("⚠️ 这是一个很重要的时刻。请立即找爸爸妈妈或老师聊聊，或拨打 12355 青少年服务热线。")
+            # 给评委看的说明卡：标清安全闭环边界
+            with st.expander("❓ 为什么安心童伴这样回应？（给评委看的安全闭环说明）", expanded=False):
+                st.markdown(
+                    """
+                    **触发条件**：孩子表达自伤/高风险情绪信号（risk_level=3）
+
+                    **安心童伴的 4 条边界**：
+
+                    | 边界 | 说明 |
+                    |---|---|
+                    | 🚫 不尝试治愈 | AI 不诊断、不治疗，不假装能解决孩子的心理危机 |
+                    | 🚫 不深入话题 | 不追问原因、不引导孩子展开自伤细节 |
+                    | 🚫 不附和 | 不说「我理解你的痛苦」之类的安抚性话语 |
+                    | 🚫 不评判 | 不说「你不应该这样想」，不指责也不淡化 |
+
+                    **转人工边界**：引导孩子立即找家人或拨打 **12355 青少年服务热线**
+
+                    **家长警报**：高风险紧急提醒已发送到家长守护仪表盘，标记「立即关注」
+
+                    ---
+
+                    💡 技术上：Step 3 策略决策判定 risk_level=3 后，**跳过 Step 4-5（LLM 自由生成）**，直接使用预置危机模板。这是「不让大模型自由发挥」的边界判断。
+                    """
+                )
         elif result.critic_intercepted:
             st.warning("安心童伴检查了一下刚才的回答，觉得不太合适，所以换了个话题。我们聊点别的吧～")
         elif result.parent_alert:

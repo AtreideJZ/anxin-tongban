@@ -20,6 +20,48 @@ DEFAULT_MODE = "chat"
 _PLANET_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "planet.json")
 _STATE_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "session_state.json")
 
+# 部署环境检测：Streamlit Cloud 是多用户共享容器，
+# 基于文件的持久化会把 A 用户的聊天暴露给 B 用户，因此禁用。
+# 本地开发时保留文件持久化，方便调试。
+def _is_deployed() -> bool:
+    """检测当前是否在 Streamlit Cloud 部署环境
+
+    判据（任一满足即视为部署环境）：
+    1. STREAMLIT_SHARING_MODE 环境变量（Streamlit Cloud 官方标识）
+    2. STREAMLIT_SERVER_HEADLESS=true（Streamlit Cloud 启动方式）
+    3. HOME 目录以 /home/appuser 开头（Streamlit Cloud 容器约定）
+    4. 存在 /app/<repo-name> 路径（Streamlit Cloud 工作目录）
+    """
+    if os.environ.get("STREAMLIT_SHARING_MODE", ""):
+        return True
+    if os.environ.get("STREAMLIT_SERVER_HEADLESS", "").lower() == "true":
+        return True
+    home = os.path.expanduser("~")
+    if home.startswith("/home/appuser"):
+        return True
+    if os.path.isdir("/app"):
+        return True
+    return False
+
+
+_PERSISTENCE_ENABLED = not _is_deployed()
+
+
+def _cleanup_deployed_state_file() -> None:
+    """部署环境启动时清理残留的 session_state.json
+
+    防止旧版本代码写入的文件被新版本意外读到。
+    """
+    if not _PERSISTENCE_ENABLED:
+        try:
+            if os.path.exists(_STATE_FILE):
+                os.remove(_STATE_FILE)
+        except Exception:
+            pass
+
+
+_cleanup_deployed_state_file()
+
 
 def _load_default_planet() -> dict:
     try:
@@ -70,8 +112,10 @@ def init_state() -> None:
         }
 
     # 从磁盘恢复持久化状态（仅首次初始化时加载一次）
+    # 部署环境下禁用文件持久化，避免不同用户的数据互相污染
     if not st.session_state.get("_state_loaded", False):
-        load_state()
+        if _PERSISTENCE_ENABLED:
+            load_state()
         st.session_state._state_loaded = True
 
 
@@ -79,7 +123,12 @@ def init_state() -> None:
 # 数据持久化（JSON 文件）
 # ---------------------------------------------------------------------------
 def save_state() -> None:
-    """将关键 session_state 保存到 JSON 文件，刷新后可恢复"""
+    """将关键 session_state 保存到 JSON 文件，刷新后可恢复
+
+    部署环境下禁用（多用户共享容器，文件持久化无意义）。
+    """
+    if not _PERSISTENCE_ENABLED:
+        return
     data = {
         "chat_history": st.session_state.get("chat_history", []),
         "planet": st.session_state.get("planet", {}),
@@ -217,7 +266,7 @@ def _suggest_for_parent(result) -> str:
     suggestions = {
         "privacy_leak": "以轻松的方式跟孩子聊聊：网上有哪些信息不能随便告诉别人？",
         "school_bullying": "用关心的语气问：最近在学校和同学相处怎么样？有没有什么让你不舒服的事？",
-        "self_harm": "立即与孩子沟通，必要时寻求专业心理援助。",
+        "self_harm": "🚨 立即与孩子沟通。如需专业心理援助，请拨打 12355 青少年服务热线或联系学校心理老师。安心童伴已在儿童端引导孩子联系家人或拨打 12355。",
         "ai_dependency": "增加陪伴时间，与孩子一起做一些现实中的活动。",
         "inappropriate_content": "了解孩子最近接触的内容来源，做适当引导。",
     }

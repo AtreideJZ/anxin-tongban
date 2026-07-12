@@ -239,11 +239,26 @@ else:
     for i, a in enumerate(alerts):
         color = risk_color.get(a["risk_level"], "#5f5f5d")
         label = risk_label.get(a["risk_level"], "")
+        # self_harm 高风险用红色背景 + 「立即关注」标识
+        is_high_risk_self_harm = (a["risk_level"] == 3 and a["topic"] == "self_harm")
+        if is_high_risk_self_harm:
+            card_style = (
+                f'border-left: 4px solid {color}; '
+                f'background-color: rgba(217, 83, 79, 0.08);'
+            )
+            urgent_badge = (
+                '<span style="display:inline-block; padding:2px 10px; margin-left:8px; '
+                'border-radius:9999px; background-color:#D9534F; color:#fff; '
+                'font-size:11px; font-weight:600;">🚨 立即关注</span>'
+            )
+        else:
+            card_style = f'border-left: 4px solid {color};'
+            urgent_badge = ""
         st.markdown(
             f"""
-            <div class="anxin-card" style="border-left: 4px solid {color};">
+            <div class="anxin-card" style="{card_style}">
                 <div style="display:flex; justify-content:space-between; align-items:baseline;">
-                    <div><b>{label}风险</b> · {topic_label_map.get(a["topic"], a["topic"])}</div>
+                    <div><b>{label}风险</b> · {topic_label_map.get(a["topic"], a["topic"])}{urgent_badge}</div>
                     <div class="meta">{a["time"]}</div>
                 </div>
                 <div style="margin: 6px 0; font-size: 14px; line-height: 1.5;">{a["summary"]}</div>
