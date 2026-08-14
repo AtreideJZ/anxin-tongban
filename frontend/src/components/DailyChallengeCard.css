@@ -1,0 +1,32 @@
+.challenge-card {
+  border: 1px solid var(--star);
+  border-radius: var(--r-xl);
+  padding: var(--sp-2);
+  background: var(--cream);
+}
+
+.challenge-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-bottom: 6px;
+}
+
+.challenge-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.challenge-type {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 2px 10px;
+}
+
+.challenge-text {
+  font-size: 15px;
+  line-height: 1.7;
+}

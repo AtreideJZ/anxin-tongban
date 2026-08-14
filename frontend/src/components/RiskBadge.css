@@ -1,0 +1,26 @@
+/* RiskBadge — 风险等级 pill：语义色圆点 + 标签 */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--risk-color);
+  color: var(--charcoal);
+  background: color-mix(in srgb, var(--risk-color) 14%, transparent);
+  white-space: nowrap;
+}
+
+.risk-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--risk-color);
+}
+
+/* 深色作用域（安全引擎页）内文字转浅 */
+.dark-safety .risk-badge {
+  color: var(--text);
+}

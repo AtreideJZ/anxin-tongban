@@ -1,0 +1,634 @@
+/* ============================================================
+ * MyPlanet — 我的小星球页（儿童轨 · v2.4）
+ * 轻 Hero（纯文本 + 挑战胶囊条）→ 生命树（唯一主角）→ 星球罗盘
+ * → 条目区（本周/种类双视图）→ 共创卫星卡 → 时间胶囊花园
+ * 昼夜氛围：data-time 只调背景渐变与树区色温，不加新动画。
+ * ============================================================ */
+
+.planet-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  transition: background 0.6s ease;
+}
+
+/* ---- 昼夜/时段氛围（约 30 行，只调色温不动结构） ---- */
+.planet-page[data-time="morning"] {
+  background: linear-gradient(180deg, rgba(143, 205, 224, 0.12), var(--cream) 42%);
+}
+
+.planet-page[data-time="afternoon"] {
+  background: linear-gradient(180deg, rgba(242, 201, 76, 0.1), var(--cream) 42%);
+}
+
+.planet-page[data-time="evening"] {
+  background: linear-gradient(180deg, rgba(232, 155, 71, 0.16), var(--cream) 48%);
+}
+
+.planet-page[data-time="night"] {
+  background: linear-gradient(180deg, rgba(46, 58, 89, 0.18), var(--cream) 52%);
+}
+
+/* 树区色温光晕（预渲染静态层，非动画） */
+.planet-tree-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.planet-tree-section::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--tree-glow, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.planet-page[data-time="evening"] {
+  --tree-glow: rgba(232, 155, 71, 0.14);
+}
+
+.planet-page[data-time="night"] {
+  --tree-glow: rgba(46, 58, 89, 0.16);
+}
+
+.planet-tree-section .growth-tree {
+  position: relative;
+}
+
+/* ---- 顶栏（透明底让时段氛围透过来，保留底线） ---- */
+.planet-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 12px var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  flex-wrap: wrap;
+}
+
+.planet-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 18px;
+}
+
+.planet-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.planet-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.planet-chat-link {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.planet-chat-link:active {
+  opacity: 0.8;
+}
+
+/* ---- 主区：宽松密度 ---- */
+.planet-main {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--sp-3) var(--sp-2) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+
+.planet-main > div {
+  width: 100%;
+}
+
+.planet-loading {
+  text-align: center;
+  color: var(--muted);
+  padding: var(--sp-8) var(--sp-2);
+}
+
+/* ---- 轻 Hero：一句话问候 + 今日挑战胶囊条 ---- */
+.planet-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  text-align: center;
+}
+
+.planet-hero__greeting {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.daily-challenge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--charcoal);
+  transition: box-shadow 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .daily-challenge-pill:hover {
+    box-shadow: var(--focus-shadow);
+  }
+}
+
+.daily-challenge-pill:active {
+  opacity: 0.85;
+}
+
+/* ---- 区块标题（条目区/胶囊区共用） ---- */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 粉彩点缀小圆点（分组标题前） */
+.section-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--dot, var(--sky));
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* 时间胶囊区的点缀色 */
+.section-dot--capsule {
+  background: var(--sky);
+}
+
+/* ---- 条目区 ---- */
+.entries-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+
+.entries-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.entries-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+/* 本周 / 种类 分段切换 */
+.view-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--tint);
+  border: 1px solid var(--border);
+}
+
+.view-switch-btn {
+  padding: 6px 18px;
+  border-radius: var(--r-pill);
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.view-switch-btn--on {
+  background: var(--charcoal);
+  color: var(--off-white);
+  box-shadow: var(--btn-inset);
+}
+
+.entries-empty {
+  width: 100%;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---- 本周视图：横向时间条，每天一竖列 ---- */
+.week-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.week-strip {
+  display: flex;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  padding-bottom: var(--sp-1);
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.week-day {
+  flex: 0 0 224px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  border-top: 3px solid var(--border);
+  padding-top: var(--sp-1);
+}
+
+.week-day:first-child {
+  border-top-color: var(--star);
+}
+
+.week-day-label {
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-1);
+}
+
+.week-day-count {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.week-day-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+/* 时间条里的卡片紧凑一点 */
+.week-day-list .planet-entry-card {
+  padding: var(--sp-2);
+}
+
+/* 空白日的小圆点占位 */
+.week-day-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--border);
+  margin: 6px auto 0;
+}
+
+.week-earlier {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+/* ---- 种类视图：四类分组网格 ---- */
+.entry-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+.entry-group-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.entry-grid {
+  list-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--sp-2);
+}
+
+.entries-footnote {
+  width: 100%;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--border);
+}
+
+/* ---- 共创故事卫星卡（替代 ghost 链接） ---- */
+.cocreation-satellite {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: 460px;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  text-decoration: none;
+  color: var(--charcoal);
+}
+
+.cocreation-satellite__badge {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  background: color-mix(in srgb, var(--sunset) 16%, var(--off-white));
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cocreation-satellite:hover .cocreation-satellite__badge {
+    transform: rotate(-14deg);
+  }
+}
+
+.cocreation-satellite:active {
+  opacity: 0.85;
+}
+
+.cocreation-satellite__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.cocreation-satellite__text strong {
+  font-size: 16px;
+  color: var(--charcoal);
+  font-family: var(--font-display);
+}
+
+/* ---- sprout 校验温和提示条 ---- */
+.sprout-notice {
+  width: 100%;
+  border-radius: var(--r-xl);
+  border-color: var(--sprout);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.sprout-notice-text {
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.sprout-notice-hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.sprout-notice-actions {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* ---- 种下新东西弹层（modal / 5-7 底部面板） ---- */
+.entry-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2);
+  background: rgba(247, 244, 237, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.entry-modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-3);
+  box-shadow: 0 12px 40px rgba(28, 28, 28, 0.12);
+}
+
+/* 5-7：全屏底部面板 */
+.entry-modal-backdrop:has(.entry-modal--sheet) {
+  align-items: flex-end;
+  padding: 0;
+}
+
+.entry-modal--sheet {
+  max-width: none;
+  max-height: 92vh;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+}
+
+/* ---- 种下新东西表单 ---- */
+.entry-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.entry-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.entry-form-field input,
+.entry-form-field textarea {
+  padding: 12px 16px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--cream);
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+  resize: none;
+}
+
+.entry-form-field input:focus,
+.entry-form-field textarea:focus {
+  box-shadow: var(--focus-shadow);
+}
+
+/* 类型选择：四枚 pill，选中态炭黑 */
+.entry-type-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.entry-type-option {
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.entry-type-option:active {
+  opacity: 0.8;
+}
+
+.entry-type-option--on {
+  background: var(--charcoal);
+  color: var(--off-white);
+  border-color: var(--charcoal);
+  box-shadow: var(--btn-inset);
+}
+
+/* 5-7 简版：大图标类型按钮（≥72px 触摸目标） */
+.entry-type-picker--big {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-1);
+}
+
+.entry-type-picker--big .entry-type-option {
+  min-height: 72px;
+  min-width: 72px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border-radius: var(--r-xl);
+  font-size: 13px;
+}
+
+.entry-type-picker--big .entry-type-icon {
+  font-size: 30px;
+  line-height: 1;
+}
+
+/* 心情云四色选择器 */
+.mood-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.mood-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mood-option:active {
+  opacity: 0.8;
+}
+
+.mood-option--on {
+  background: var(--tint);
+  border-color: var(--charcoal);
+}
+
+.mood-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-pill);
+  background: var(--mood, var(--cloud));
+  border: 1px solid var(--border);
+}
+
+.entry-form-error {
+  color: var(--risk-2);
+  font-size: 14px;
+}
+
+.entry-form-actions {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+/* 条目区操作行 */
+.entries-actions {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+/* ---- reduced-motion：页面级过渡降级 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .planet-page {
+    transition: none;
+  }
+
+  .cocreation-satellite__badge,
+  .daily-challenge-pill {
+    transition: none;
+  }
+}

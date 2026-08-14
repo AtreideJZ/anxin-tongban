@@ -1,0 +1,80 @@
+/* PlanetCard — 星球条目卡（米白底 + 暖边框 + 左侧类型色竖条） */
+
+.planet-entry-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--off-white);
+  border-left: 6px solid var(--type-color, var(--sky));
+  transition: box-shadow 0.2s ease;
+}
+
+/* hover 托起（多层微阴影）仅限精确指针设备；触屏用 whileTap scale(0.98) */
+@media (hover: hover) and (pointer: fine) {
+  .planet-entry-card:hover {
+    box-shadow: 0 1px 2px rgba(28, 28, 28, 0.05),
+      0 4px 10px rgba(28, 28, 28, 0.06), 0 10px 24px rgba(28, 28, 28, 0.05);
+  }
+}
+
+.planet-entry-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.planet-entry-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.planet-entry-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.planet-entry-title {
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.planet-entry-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* 心情云色点：四色 token 粉彩 */
+.planet-entry-mood {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--r-pill);
+  background: var(--mood, var(--cloud));
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.planet-entry-content {
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.planet-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.planet-entry-tag {
+  padding: 1px 10px;
+  border-radius: var(--r-pill);
+  background: var(--tint);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.planet-entry-actions {
+  margin-top: 2px;
+}

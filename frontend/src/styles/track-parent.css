@@ -1,0 +1,22 @@
+/* ============================================================
+ * track-parent.css — 家长端叠加 token（大人模式）
+ * 页面根元素加 class="track-parent" 生效
+ * 含 .dark-safety 深色作用域（仅安全引擎可视化页，本阶段只搭文件）
+ * ============================================================ */
+
+.track-parent {
+  --accent: #4a7384; /* 石板青（替代粉彩） */
+  --font-display: Inter, "PingFang SC", "Microsoft YaHei", system-ui,
+    sans-serif;
+  --font-num: "Inter", var(--font-body); /* 家长端数字/拉丁用 Inter */
+  --section-gap: var(--sp-6); /* 收紧 */
+}
+
+/* 安全引擎页深色"夜空"作用域，仅此页可用 */
+.dark-safety {
+  --canvas: #14181f; /* 夜空（不用纯黑，更柔和） */
+  --surface: #1d242e;
+  --text: #e8e6e0;
+  --border: rgba(255, 255, 255, 0.08);
+  /* risk 语义色不变——步骤卡在深色上自然"发光" */
+}

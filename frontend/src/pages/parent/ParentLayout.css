@@ -1,0 +1,136 @@
+/* ParentLayout — 家长端骨架：顶栏 + 内容区（密度收紧，石板青强调） */
+.parent-layout {
+  min-height: 100vh;
+  background: var(--cream);
+  font-family: var(--font-body);
+}
+
+/* ---- 顶栏 ---- */
+.parent-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0 var(--sp-4);
+  height: 64px;
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.parent-brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.parent-brand-sub {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.parent-nav {
+  display: flex;
+  gap: var(--sp-1);
+  flex: 1;
+}
+
+.parent-nav-link {
+  padding: 6px 16px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.parent-nav-link:hover {
+  background: var(--tint);
+}
+
+.parent-nav-link.active {
+  background: var(--accent);
+  color: var(--off-white);
+}
+
+.parent-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.child-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.child-picker-label {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.child-picker-select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--cream);
+  color: var(--charcoal);
+}
+
+.parent-logout {
+  padding: 8px 20px;
+  font-size: 14px;
+}
+
+/* ---- 内容区：页面自带 padding（.parent-page），安全引擎页全出血深色 ---- */
+.parent-main {
+  min-height: calc(100vh - 64px);
+}
+
+.parent-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--sp-4) var(--sp-4) var(--sp-8);
+}
+
+.parent-page-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+
+.parent-page-desc {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: var(--sp-4);
+}
+
+/* 温和空态（各页面共用） */
+.parent-empty {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  background: var(--tint);
+}
+
+@media (max-width: 860px) {
+  .parent-topbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--sp-1) var(--sp-2);
+    gap: var(--sp-1);
+  }
+  .parent-page {
+    padding: var(--sp-2) var(--sp-2) var(--sp-6);
+  }
+}

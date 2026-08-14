@@ -1,0 +1,7 @@
+streamlit>=1.57.0
+openai>=1.51.0
+# 可选：Qwen3Guard 本地安全模型（CPU 推理，GGUF 量化）
+# llama-cpp-python>=0.3.0
+# 模型文件需单独下载：https://huggingface.co/Qwen/Qwen3Guard-Gen-0.6B-GGUF
+# 可选：语音识别（本地 faster-whisper，无需 API Key）
+# faster-whisper>=1.0.0

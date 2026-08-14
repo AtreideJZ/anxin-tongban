@@ -1,0 +1,33 @@
+/* GentleDelete — 温和两步删除确认 */
+
+.gentle-delete-btn {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+.gentle-delete-btn:hover {
+  color: var(--charcoal);
+}
+
+.gentle-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 13px;
+}
+
+.gentle-delete-text {
+  color: var(--muted);
+}
+
+.gentle-delete-yes {
+  color: var(--risk-3);
+  font-weight: 600;
+  padding: 4px 0;
+}
+
+.gentle-delete-no {
+  color: var(--muted);
+  padding: 4px 0;
+}

@@ -1,0 +1,100 @@
+/* ParentAlerts — 告警卡列表 + 排序切换 */
+.alerts-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+}
+
+.sort-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.sort-btn {
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sort-btn.active {
+  background: var(--accent);
+  color: var(--off-white);
+}
+
+.alerts-count {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.alert-card {
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.alert-card-unread {
+  border-color: var(--accent);
+}
+
+.alert-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-1);
+}
+
+.alert-topic {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.alert-meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.alert-unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.alert-summary {
+  font-size: 14px;
+  margin-bottom: var(--sp-1);
+}
+
+.alert-suggestion {
+  display: flex;
+  gap: var(--sp-1);
+  align-items: flex-start;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-radius: var(--r-md);
+  padding: var(--sp-1) var(--sp-2);
+  font-size: 14px;
+}
+
+.alert-suggestion-label {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-pill);
+  padding: 1px 10px;
+  margin-top: 2px;
+}

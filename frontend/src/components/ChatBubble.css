@@ -1,0 +1,73 @@
+.bubble-row {
+  display: flex;
+  margin-bottom: var(--sp-2);
+}
+
+.bubble-row--user {
+  justify-content: flex-end;
+}
+
+.bubble-row--ai {
+  justify-content: flex-start;
+}
+
+.bubble-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: min(78%, 640px);
+}
+
+.bubble-row--user .bubble-col {
+  align-items: flex-end;
+}
+
+.bubble {
+  padding: 12px 18px;
+  border-radius: var(--r-xl);
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 用户气泡：--tint 微染（设计规范），右侧 */
+.bubble--user {
+  background: var(--tint);
+  border: 1px solid var(--border);
+  border-bottom-right-radius: var(--r-xs);
+}
+
+/* AI 气泡：奶油底 + 暖边框，左侧 */
+.bubble--ai {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: var(--r-xs);
+}
+
+/* 危机模板：温和的绿边呈现，稳定感，不做任何惊恐化 UI */
+.bubble--crisis {
+  border-color: var(--sprout);
+}
+
+/* 打字机小尾巴 */
+.bubble-caret {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  border-radius: var(--r-xs);
+  background: var(--muted);
+  opacity: 0.35;
+}
+
+/* "已安全检查"小字徽章：不显示风险等级，只有安心感 */
+.bubble-safety {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  padding-left: var(--sp-1);
+}

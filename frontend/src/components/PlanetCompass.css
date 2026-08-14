@@ -1,0 +1,90 @@
+/* ============================================================
+ * PlanetCompass — 星球罗盘样式
+ * 4 枚卫星横排（移动端等宽收缩不换行），选中=类型色 15% 填充
+ * ============================================================ */
+
+.planet-compass {
+  display: flex;
+  gap: var(--sp-1);
+  width: 100%;
+  justify-content: center;
+}
+
+.compass-satellite {
+  flex: 1 1 0;
+  max-width: 132px;
+  min-width: 0;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 4px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* 选中：类型色 15% 填充（color-mix 退化为边框加深也可读） */
+.compass-satellite.is-on {
+  background: color-mix(in srgb, var(--satellite-color) 15%, var(--off-white));
+  border-color: var(--satellite-color);
+}
+
+/* 空类型：虚线描边占位，点击 = 种下入口 */
+.compass-satellite.is-empty {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+.compass-satellite__icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.compass-satellite__label {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.compass-satellite__count {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-num);
+  line-height: 1;
+}
+
+.compass-satellite.is-on .compass-satellite__count {
+  color: var(--charcoal);
+}
+
+/* hover 反馈仅限精确指针设备；触屏用 :active */
+@media (hover: hover) and (pointer: fine) {
+  .compass-satellite:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.compass-satellite:active {
+  transform: scale(0.96);
+}
+
+.compass-satellite:focus-visible {
+  outline: 2px solid var(--charcoal);
+  outline-offset: 2px;
+}
+
+/* reduced-motion：关掉位移反馈，保留颜色态 */
+@media (prefers-reduced-motion: reduce) {
+  .compass-satellite {
+    transition: background-color 0.01s, border-color 0.01s;
+  }
+  .compass-satellite:active {
+    transform: none;
+  }
+}

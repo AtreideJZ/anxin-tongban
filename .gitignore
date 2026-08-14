@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# 持久化数据（部署环境禁用，本地开发文件不入库）
+data/session_state.json
+
+# v2.1 后端
+data/*.db
+data/*.db-shm
+data/*.db-wal
+backend/.env
+
+# 环境变量（含 API Key，绝不入库）
+.env
+.env.local
+.env.*.local
+
+# Node 依赖
+node_modules/
+**/node_modules/
+
+# 前端构建产物（部署时重新构建，不入库）
+frontend/dist/
+
+# 情景记忆全局 JSON 存储（safety-demo 端点写入路径，含对话摘要，敏感）
+data/episodic_memory.json
+
+# 本地模型文件（Qwen3Guard GGUF ~400MB，脚本下载，不入库）
+models/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 工作助手
+.workbuddy/
+.claude/
+deliverables/
+
+# 内部过程文档（不进公开仓库：调研底稿/参考/旧赛事材料/自我诊断/审查底稿）
+docs/research/
+docs/参考/
+docs/TRAE-proposal/
+docs/TRAE论坛参考.md
+docs/当前瓶颈.md
+docs/CodeReview-*.md
+docs/spacemind-proposal/进度对照报告.md
+docs/spacemind-proposal/测试报告-2026-08-14.txt
+docs/code-review-2026-08-14.md
+docs/myplanet-design-upgrade.md
+docs/spacemind-proposal/提交工作方案.md
+
+# 截图占位（后续添加真实截图时移除此行）
+# docs/screenshot-*.png
+
+# 根目录 index.html 是"暖巢AI"单文件（其他项目，20MB），不入本仓库
+/index.html

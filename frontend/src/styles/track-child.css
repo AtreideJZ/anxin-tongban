@@ -1,0 +1,25 @@
+/* ============================================================
+ * track-child.css — 儿童端叠加 token（日轨 · 会呼吸的星球）
+ * 页面根元素加 class="track-child" 生效
+ * ============================================================ */
+
+.track-child {
+  /* 粉彩装饰色（低饱和，不糖果） */
+  --sky: #8fcde0; /* 天空蓝 */
+  --sprout: #7bb76e; /* 新芽绿（与 risk-0 同源） */
+  --star: #f2c94c; /* 星星金 */
+  --cloud: #f4b8c1; /* 云朵粉 */
+  --sunset: #e89b47; /* 暖橙（与 risk-2 同源） */
+  --night-sky: #2e3a59; /* 夜空（星空点缀/深色小元素） */
+
+  /* 标题：圆润黑体栈（不用活泼字体——温暖可信，不是热闹） */
+  --font-display: "阿里妈妈方圆体 VF", "AlimamaFangYuanTi",
+    "Source Han Rounded", "思源柔黑", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", system-ui, sans-serif;
+
+  /* 密度：宽松 */
+  --section-gap: var(--sp-10);
+
+  /* 当前轨道强调色（装饰用） */
+  --accent: var(--sky);
+}

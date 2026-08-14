@@ -1,0 +1,275 @@
+/* TimeCapsule — 时间胶囊花园（横向胶囊架 + 地平线 + 破壳粒子/toast） */
+
+.capsule-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+/* 柔和「地平线」：花园意象的分隔线 */
+.capsule-section::before {
+  content: "";
+  width: 100%;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sprout) 20%,
+    var(--sky) 55%,
+    var(--cloud) 85%,
+    transparent
+  );
+  opacity: 0.35;
+}
+
+.capsule-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 横向胶囊架：桌面可换行，移动端横向滚动不截断 */
+.capsule-grid {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.capsule-card {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+  flex: 1 1 260px;
+  max-width: 360px;
+}
+
+@media (max-width: 640px) {
+  .capsule-grid {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: var(--sp-1);
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .capsule-card {
+    flex: 0 0 min(82%, 300px);
+    scroll-snap-align: start;
+  }
+}
+
+.capsule-card--open {
+  border-radius: var(--r-xl);
+}
+
+.capsule-egg-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+}
+
+.capsule-egg {
+  width: 64px;
+  height: auto;
+  display: block;
+}
+
+/* 破壳粒子容器（定位在蛋壳中心） */
+.capsule-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+}
+
+.capsule-burst-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: var(--r-pill);
+  background: var(--star);
+}
+
+.capsule-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.capsule-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.capsule-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.capsule-countdown {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 2px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--tint);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.capsule-content {
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* 密封中的内容：模糊预览，看得见"有字"但读不出 */
+.capsule-content--blurred {
+  filter: blur(4px);
+  user-select: none;
+  color: var(--muted);
+  max-height: 3.2em;
+  overflow: hidden;
+}
+
+.capsule-actions {
+  margin-top: 2px;
+}
+
+/* ---- 温和两步删除样式见 GentleDelete.css（共用） ---- */
+
+/* ---- 空态：沉睡的蛋（整卡可点击，点击开创建表单） ---- */
+.capsule-sleep {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-xl);
+  border: 1px dashed var(--border-strong);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  min-height: 64px;
+}
+
+.capsule-sleep:active {
+  opacity: 0.8;
+}
+
+.capsule-sleep-egg {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+}
+
+.capsule-sleep-egg .capsule-egg {
+  width: 56px;
+}
+
+.capsule-sleep-zzz {
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  font-size: 16px;
+}
+
+/* ---- 破壳 toast：屏幕中下部非模态，2s 消失 ---- */
+.capsule-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18vh;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 10px 22px;
+  border-radius: var(--r-pill);
+  background: var(--charcoal);
+  color: var(--off-white);
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  box-shadow: var(--focus-shadow);
+}
+
+/* ---- 创建表单 ---- */
+.capsule-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  border-radius: var(--r-xl);
+}
+
+.capsule-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.capsule-form-field input,
+.capsule-form-field textarea {
+  padding: 12px 16px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+  resize: none;
+}
+
+.capsule-form-field input:focus,
+.capsule-form-field textarea:focus {
+  box-shadow: var(--focus-shadow);
+}
+
+.capsule-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.capsule-preset {
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+}
+
+.capsule-preset:active {
+  opacity: 0.8;
+}
+
+.capsule-preset--on {
+  background: var(--charcoal);
+  color: var(--off-white);
+  border-color: var(--charcoal);
+  box-shadow: var(--btn-inset);
+}
+
+.capsule-form-error {
+  color: var(--risk-2);
+  font-size: 14px;
+}
+
+.capsule-form-actions {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}

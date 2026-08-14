@@ -1,0 +1,28 @@
+.voice-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  font-size: 20px;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.voice-btn:active {
+  opacity: 0.8;
+}
+
+.voice-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 聆听中：天空蓝描边 + 轻微底色 */
+.voice-btn--listening {
+  border-color: var(--sky);
+  background: var(--tint);
+}

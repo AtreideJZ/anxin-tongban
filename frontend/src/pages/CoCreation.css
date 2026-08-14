@@ -1,0 +1,278 @@
+/* ============================================================
+ * CoCreation — 共创故事页（儿童轨）
+ * 顶栏与星球页同风格；只用 tokens.css / track-child.css 已有变量
+ * ============================================================ */
+
+.co-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- 顶栏 ---- */
+.co-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 12px var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+  flex-wrap: wrap;
+}
+
+.co-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 18px;
+}
+
+.co-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.co-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.co-nav-link {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.co-nav-link:active {
+  opacity: 0.8;
+}
+
+/* ---- 主区 ---- */
+.co-main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--sp-3) var(--sp-2) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.co-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.co-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.co-sub {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---- 开始卡 ---- */
+.co-start {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  width: 100%;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.co-field input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  font-size: 15px;
+  color: var(--charcoal);
+}
+
+/* ---- 气泡流 ---- */
+.co-flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.co-bubble {
+  max-width: 85%;
+  padding: 12px var(--sp-2);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border);
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* AI（安心童伴）居左，孩子/家长居右（微染底区分） */
+.co-bubble--ai {
+  align-self: flex-start;
+}
+
+.co-bubble--child,
+.co-bubble--parent {
+  align-self: flex-end;
+  background: var(--tint);
+  border-color: var(--border-strong);
+}
+
+/* AI 轻量引导：天空蓝描边，提示这是「引导」不是故事正文 */
+.co-bubble--guide {
+  border-style: dashed;
+  border-color: var(--sky);
+}
+
+.co-bubble-speaker {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.co-bubble-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--sky);
+  color: var(--night-sky);
+}
+
+.co-bubble-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--charcoal);
+  white-space: pre-wrap;
+}
+
+/* ---- 轮流输入区 ---- */
+.co-compose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.co-role-switch {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.co-role-pill {
+  padding: 8px 20px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--charcoal);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.co-role-pill--on {
+  background: var(--charcoal);
+  color: var(--off-white);
+  border-color: var(--charcoal);
+  box-shadow: var(--btn-inset);
+}
+
+.co-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--charcoal);
+  resize: vertical;
+}
+
+.co-actions {
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+/* suggest_finalize 时高亮「完成润色」（星金描边呼吸感） */
+.co-finalize--suggested {
+  border: 1px solid var(--star);
+}
+
+.co-suggest-hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---- 成品卡 ---- */
+.co-final {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.co-final-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+/* 共同作者标注（Authenticity，方案 5.3） */
+.co-final-authors {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sunset);
+}
+
+.co-final-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--charcoal);
+  white-space: pre-wrap;
+}
+
+.co-final-planet {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.co-final-planet-link {
+  margin-left: var(--sp-1);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.co-shared-note {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sprout);
+}
+
+.co-error {
+  font-size: 14px;
+  color: var(--risk-3);
+}

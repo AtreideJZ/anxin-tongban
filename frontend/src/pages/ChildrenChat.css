@@ -1,0 +1,237 @@
+.chat-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- 顶栏 ---- */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 12px var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+  flex-wrap: wrap;
+}
+
+.chat-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 18px;
+}
+
+.chat-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.chat-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.chat-usage {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.chat-planet-link {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+
+.chat-planet-link:active {
+  opacity: 0.8;
+}
+
+.chat-logout {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 8px 4px;
+}
+
+.chat-logout:hover {
+  color: var(--charcoal);
+}
+
+/* ---- 消息流 ---- */
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-flow {
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--sp-3) var(--sp-2) var(--sp-4);
+}
+
+.chat-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: var(--sp-8) var(--sp-2);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.chat-empty-emoji {
+  font-size: 40px;
+  margin-bottom: var(--sp-2);
+}
+
+/* ---- 输入区 ---- */
+.chat-input-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  border-top: 1px solid var(--border);
+  background: var(--cream);
+}
+
+.chat-input {
+  flex: 1;
+  resize: none;
+  padding: 14px 18px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  font-size: 16px;
+  line-height: 1.6;
+  outline: none;
+  max-height: 140px;
+}
+
+.chat-input:focus {
+  box-shadow: var(--focus-shadow);
+}
+
+.chat-input:disabled {
+  opacity: 0.6;
+}
+
+.chat-input-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+/* TTS 开关：小圆钮，开启时天空蓝描边 */
+.tts-toggle,
+.topic-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tts-toggle:active {
+  opacity: 0.8;
+}
+
+.tts-toggle--on {
+  border-color: var(--sky);
+  background: var(--tint);
+}
+
+.chat-send {
+  flex-shrink: 0;
+}
+
+/* ---- 2 小时提醒对话框 ---- */
+.reminder-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 28, 28, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-3);
+  z-index: 50;
+}
+
+.reminder-dialog {
+  max-width: 420px;
+  text-align: center;
+  padding: var(--sp-4);
+  border-radius: var(--r-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.reminder-emoji {
+  font-size: 44px;
+}
+
+.reminder-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.reminder-text {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ---- 亲子话题卡（v2.2 B）：输入区上方，引导孩子和爸爸妈妈当面聊 ---- */
+.topic-card {
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-strong);
+  background: var(--tint);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.topic-card-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+}
+
+.topic-card-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--charcoal);
+}
+
+.topic-card-actions {
+  display: flex;
+  gap: var(--sp-1);
+  justify-content: flex-end;
+}
+
+.topic-card-btn {
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  border-radius: var(--r-pill);
+  padding: 4px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.topic-card-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

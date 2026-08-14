@@ -1,0 +1,196 @@
+/* ============================================================
+ * ChildHome — 儿童端主页（时段问候 + 两张入口大卡）
+ * 昼夜氛围与星球页同源（data-time 只调色温，不加动画）
+ * ============================================================ */
+
+.home-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+}
+
+.home-page[data-time="morning"] {
+  background: linear-gradient(180deg, rgba(143, 205, 224, 0.12), var(--cream) 42%);
+}
+
+.home-page[data-time="afternoon"] {
+  background: linear-gradient(180deg, rgba(242, 201, 76, 0.1), var(--cream) 42%);
+}
+
+.home-page[data-time="evening"] {
+  background: linear-gradient(180deg, rgba(232, 155, 71, 0.16), var(--cream) 48%);
+}
+
+.home-page[data-time="night"] {
+  background: linear-gradient(180deg, rgba(46, 58, 89, 0.18), var(--cream) 52%);
+}
+
+/* ---- 顶栏 ---- */
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 12px var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 18px;
+}
+
+.home-brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* ---- 主区：问候 + 入口卡 ---- */
+.home-main {
+  flex: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  justify-content: center;
+}
+
+.home-greeting {
+  text-align: center;
+}
+
+.home-greeting-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.home-greeting-sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---- 入口大卡：大触摸目标，类型色徽章 ---- */
+.home-entrances {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.home-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: 96px;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border-strong);
+  background: var(--off-white);
+  text-decoration: none;
+  color: var(--charcoal);
+  transition: box-shadow 0.2s ease;
+}
+
+.home-card__badge {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background: color-mix(in srgb, var(--card-color) 18%, var(--off-white));
+  border: 1px solid var(--border);
+}
+
+.home-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.home-card__text strong {
+  font-size: 20px;
+  color: var(--charcoal);
+  font-family: var(--font-display);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-card:hover {
+    box-shadow: 0 1px 2px rgba(28, 28, 28, 0.05),
+      0 4px 10px rgba(28, 28, 28, 0.06), 0 10px 24px rgba(28, 28, 28, 0.05);
+  }
+}
+
+.home-card:active {
+  opacity: 0.85;
+}
+
+.home-card:focus-visible {
+  outline: 2px solid var(--charcoal);
+  outline-offset: 2px;
+}
+
+/* ---- 速览小卡（星球天气 + 今日挑战）：视觉权重低于入口大卡 ---- */
+.home-glance {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  width: 100%;
+}
+
+.home-glance-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: 44px;
+  padding: 10px var(--sp-2);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--charcoal);
+}
+
+.home-glance-card:active {
+  opacity: 0.85;
+}
+
+.home-glance-card:focus-visible {
+  outline: 2px solid var(--charcoal);
+  outline-offset: 2px;
+}
+
+/* ---- 安全承诺条（纯静态） ---- */
+.home-promise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---- 页脚：AI 身份再声明 ---- */
+.home-footer {
+  padding: var(--sp-2);
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card {
+    transition: none;
+  }
+}

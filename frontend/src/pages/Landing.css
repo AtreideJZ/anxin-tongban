@@ -1,0 +1,152 @@
+.landing {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  padding: var(--sp-6) var(--sp-2);
+}
+
+/* ---- 品牌区 ---- */
+.landing-brand {
+  text-align: center;
+}
+
+.landing-logo {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+
+.landing-title {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.landing-slogan {
+  margin-top: var(--sp-1);
+  color: var(--muted);
+  font-size: 17px;
+}
+
+/* ---- 登录/注册卡片 ---- */
+.landing-card {
+  width: min(100%, 460px);
+  padding: var(--sp-3);
+  border-radius: var(--r-xl);
+}
+
+.landing-tabs {
+  display: flex;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-2);
+}
+
+.landing-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--r-pill);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  border: 1px solid transparent;
+}
+
+.landing-tab--active {
+  color: var(--charcoal);
+  background: var(--tint);
+  border-color: var(--border);
+}
+
+/* ---- 表单 ---- */
+.landing-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.landing-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.landing-field input {
+  padding: 12px 16px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  font-weight: 400;
+  outline: none;
+}
+
+.landing-field input:focus {
+  box-shadow: var(--focus-shadow);
+  border-color: var(--border-strong);
+}
+
+/* 选择卡（年龄档/角色） */
+.choice-row {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.choice-card {
+  flex: 1;
+  padding: 14px 10px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--cream);
+  font-size: 15px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.choice-card--active {
+  border-color: var(--sky);
+  background: var(--tint);
+}
+
+/* 监护人同意 */
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.consent-row input {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--charcoal);
+  flex-shrink: 0;
+}
+
+.consent-hint {
+  font-size: 13px;
+  color: var(--sunset);
+}
+
+.landing-error {
+  font-size: 14px;
+  color: var(--risk-3);
+}
+
+.landing-submit {
+  margin-top: var(--sp-1);
+}
+
+.landing-footer {
+  font-size: 13px;
+  color: var(--muted);
+}

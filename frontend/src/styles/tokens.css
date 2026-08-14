@@ -1,0 +1,49 @@
+/* ============================================================
+ * tokens.css — 安心童伴融合设计系统 base token（两端共享）
+ * 唯一事实来源：docs/DESIGN-anxin.md，禁止在此之外自造色值
+ * ============================================================ */
+
+:root {
+  /* 材质 */
+  --cream: #f7f4ed; /* 页面/卡片背景 */
+  --charcoal: #1c1c1c; /* 主文字 */
+  --off-white: #fcfbf8; /* 深底按钮文字 */
+  --muted: #5f5f5d; /* 次要文字 */
+  --border: #eceae4; /* 暖边框（容器用边框不用阴影） */
+  --border-strong: rgba(28, 28, 28, 0.4); /* 交互边框 */
+  --tint: rgba(28, 28, 28, 0.04); /* 微染（hover/用户气泡） */
+  --focus-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+
+  /* 语义色（两端统一含义：聊天气泡徽章/家长告警/安全引擎步骤卡） */
+  --risk-0: #7bb76e; /* 安全绿 */
+  --risk-1: #e8c547; /* 轻度黄 */
+  --risk-2: #e89b47; /* 中度橙 */
+  --risk-3: #d9534f; /* 高危红 */
+  --info-blue: #3b82f6;
+
+  /* 形状：pill 是唯一主按钮形状 */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 9999px;
+
+  /* 间距（8px 基准） */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+  --sp-10: 80px;
+
+  /* 主按钮内凹阴影（Lovable 签名细节） */
+  --btn-inset: rgba(255, 255, 255, 0.2) 0 0.5px 0 inset,
+    rgba(0, 0, 0, 0.2) 0 0 0 0.5px inset, rgba(0, 0, 0, 0.05) 0 1px 2px;
+
+  /* 字体栈 */
+  --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui,
+    sans-serif;
+  --font-num: "Nunito", var(--font-body);
+}

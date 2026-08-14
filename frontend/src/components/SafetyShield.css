@@ -1,0 +1,23 @@
+.safety-shield {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 12px 18px;
+  margin-bottom: var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  border-bottom-left-radius: var(--r-xs);
+  background: var(--cream);
+  align-self: flex-start;
+  max-width: min(78%, 640px);
+}
+
+.safety-shield-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.safety-shield-hint {
+  font-size: 14px;
+  color: var(--muted);
+}

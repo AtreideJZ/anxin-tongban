@@ -1,0 +1,41 @@
+.rec-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px var(--sp-2);
+  background: var(--cream);
+}
+
+.rec-title {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: var(--sp-1);
+}
+
+.rec-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+/* 粉彩 pill：轮换天空蓝/云朵粉/新芽绿（低饱和装饰色） */
+.rec-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  border: 1px solid var(--border);
+  background: var(--tint);
+}
+
+.rec-pill:nth-child(3n + 1) {
+  border-color: var(--sky);
+}
+
+.rec-pill:nth-child(3n + 2) {
+  border-color: var(--cloud);
+}
+
+.rec-pill:nth-child(3n) {
+  border-color: var(--sprout);
+}

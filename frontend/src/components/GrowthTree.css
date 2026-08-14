@@ -1,0 +1,158 @@
+/* ============================================================
+ * GrowthTree — 生命树容器 + v2.4 动效
+ * 纪律：循环动画全部纯 CSS @keyframes，同一时刻只有当前天气一组；
+ *      联动高亮只用 transform/opacity，不用 filter；
+ *      prefers-reduced-motion 时停掉全部循环/位移动画。
+ * ============================================================ */
+
+.growth-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.growth-tree-svg {
+  width: min(420px, 92vw);
+  height: auto;
+  display: block;
+}
+
+.growth-tree-empty {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* ---- 类型元素联动（罗盘选中 → 树上对应元素放大 + glow 淡入） ---- */
+.tree-elem {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform 0.25s ease;
+}
+
+.tree-elem.is-clickable {
+  cursor: pointer;
+}
+
+.tree-elem.is-active {
+  transform: scale(1.15);
+}
+
+/* 预渲染 glow 层：默认透明，选中时淡入（只动 opacity） */
+.tree-glow {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.tree-elem.is-active .tree-glow {
+  opacity: 0.4;
+}
+
+/* ---- 天气循环动画（同一时刻仅当前天气一组在跑） ---- */
+
+/* 晴：太阳光线缓慢旋转 */
+.wx-rays {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: wx-spin 12s linear infinite;
+}
+
+@keyframes wx-spin {
+  to {
+    transform: rotate(15deg);
+  }
+}
+
+/* 多云：云朵横向漂移（多层不同速） */
+.wx-cloud {
+  transform-box: fill-box;
+}
+
+.wx-cloud--a {
+  animation: wx-drift 9s ease-in-out infinite alternate;
+}
+
+.wx-cloud--b {
+  animation: wx-drift 13s ease-in-out infinite alternate-reverse;
+}
+
+.wx-cloud--c {
+  animation: wx-drift 17s ease-in-out infinite alternate;
+}
+
+@keyframes wx-drift {
+  from {
+    transform: translateX(-8px);
+  }
+  to {
+    transform: translateX(8px);
+  }
+}
+
+/* 小雨：雨丝下落 + 地面涟漪扩散 */
+.wx-rain-drop {
+  animation: wx-rain-fall 1.8s ease-in infinite;
+}
+
+@keyframes wx-rain-fall {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
+.wx-ripple {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: wx-ripple-spread 1.8s ease-out infinite;
+}
+
+@keyframes wx-ripple-spread {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* 彩虹：透明度呼吸 */
+.wx-rainbow-g {
+  animation: wx-breathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes wx-breathe {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- reduced-motion：停掉全部循环/位移动画，保留静态画面 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .wx-rays,
+  .wx-cloud--a,
+  .wx-cloud--b,
+  .wx-cloud--c,
+  .wx-rain-drop,
+  .wx-ripple,
+  .wx-rainbow-g {
+    animation: none;
+  }
+
+  .tree-elem,
+  .tree-glow {
+    transition: none;
+  }
+}

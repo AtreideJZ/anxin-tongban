@@ -1,0 +1,144 @@
+/* ParentSettings — 话题偏好三列编辑器 + 说明卡 */
+.save-banner {
+  border: 1px solid var(--risk-0);
+  background: color-mix(in srgb, var(--risk-0) 14%, transparent);
+  border-radius: var(--r-md);
+  padding: var(--sp-1) var(--sp-2);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: var(--sp-2);
+}
+
+.settings-card {
+  margin-bottom: var(--sp-3);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.pref-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+
+.pref-column-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+.pref-column-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.pref-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.pref-chip {
+  padding: 5px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--muted);
+  background: transparent;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.pref-chip:active {
+  opacity: 0.8;
+}
+
+.pref-chip-allowed_topics.active {
+  background: color-mix(in srgb, var(--risk-0) 18%, transparent);
+  border-color: var(--risk-0);
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.pref-chip-limited_topics.active {
+  background: color-mix(in srgb, var(--risk-1) 22%, transparent);
+  border-color: var(--risk-1);
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.pref-chip-forbidden_topics.active {
+  background: color-mix(in srgb, var(--risk-3) 16%, transparent);
+  border-color: var(--risk-3);
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.pref-actions {
+  margin-top: var(--sp-3);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.effect-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.effect-list strong {
+  color: var(--charcoal);
+}
+
+.mode-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.mode-col {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-2);
+}
+
+.mode-col-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: var(--sp-1);
+}
+
+.mode-col ul {
+  padding-left: var(--sp-2);
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mode-note {
+  margin-top: var(--sp-2);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .pref-columns,
+  .mode-compare {
+    grid-template-columns: 1fr;
+  }
+}
